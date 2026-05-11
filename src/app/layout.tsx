@@ -38,18 +38,19 @@ export const metadata: Metadata = {
     siteName: "Image2SVG",
     images: [
       {
-        url: "/logo.png",
-        width: 1024,
-        height: 1024,
-        alt: "Image2SVG Brand Logo",
+        url: "/banner.png",
+        width: 1280,
+        height: 640,
+        alt: "Image2SVG — Browser-native raster to SVG converter",
       },
     ],
   },
   twitter: {
-    card: "summary",
-    title: "Image2SVG | Precision Raster to Vector Converter",
-    description: "Transform raster imagery into crisp, infinitely scalable vector graphics.",
-    images: ["/logo.png"],
+    card: "summary_large_image",
+    title: "Image2SVG | Browser-native Raster → SVG Converter",
+    description:
+      "Convert any image to crisp SVG — 100% in your browser. Powered by VTracer WASM. Zero uploads, works offline.",
+    images: ["/banner.png"],
   },
 };
 
