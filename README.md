@@ -2,6 +2,11 @@
 
 ![Image2SVG — Browser-native image to SVG converter](./public/banner.png)
 
+[![GitHub](https://img.shields.io/badge/GitHub-dipeshwalia%2Fimage2svg-181717?style=flat&logo=github)](https://github.com/dipeshwalia/image2svg)
+[![Fork](https://img.shields.io/github/forks/dipeshwalia/image2svg?style=flat&label=Fork&logo=github)](https://github.com/dipeshwalia/image2svg/fork)
+[![CI](https://github.com/dipeshwalia/image2svg/actions/workflows/ci.yml/badge.svg)](https://github.com/dipeshwalia/image2svg/actions/workflows/ci.yml)
+[![Open in GitHub Codespaces](https://img.shields.io/badge/Codespaces-Open-blue?style=flat&logo=github)](https://codespaces.new/dipeshwalia/image2svg)
+
 Image2SVG is a browser-native image-to-SVG converter built with Next.js, TypeScript, and WebAssembly.
 
 - No backend uploads required for core conversion flow.
