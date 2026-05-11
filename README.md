@@ -1,5 +1,7 @@
 # Image2SVG
 
+![Image2SVG — Browser-native image to SVG converter](./public/banner.png)
+
 Image2SVG is a browser-native image-to-SVG converter built with Next.js, TypeScript, and WebAssembly.
 
 - No backend uploads required for core conversion flow.
@@ -26,13 +28,13 @@ Image2SVG is a browser-native image-to-SVG converter built with Next.js, TypeScr
 1. Install dependencies:
 
 ```bash
-npm install
+pnpm install
 ```
 
 2. Run dev server:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 3. Open:
@@ -41,17 +43,17 @@ npm run dev
 
 ## Scripts
 
-- `npm run dev` — start local dev server
-- `npm run build` — production build
-- `npm run start` — start production server
-- `npm run lint` — run Oxc lint checks
-- `npm run lint:fix` — run Oxc lint fixes
-- `npm run format` — check formatting with Oxc formatter
-- `npm run format:write` — apply Oxc formatting
-- `npm run typecheck` — run TypeScript checks
-- `npm run test` — run unit tests
-- `npm run test:watch` — watch mode tests
-- `npm run test:coverage` — generate coverage report
+- `pnpm dev` — start local dev server
+- `pnpm build` — production build
+- `pnpm start` — start production server
+- `pnpm lint` — run Oxc lint checks
+- `pnpm lint:fix` — run Oxc lint fixes
+- `pnpm format` — check formatting with Oxc formatter
+- `pnpm format:write` — apply Oxc formatting
+- `pnpm typecheck` — run TypeScript checks
+- `pnpm test` — run unit tests
+- `pnpm test:watch` — watch mode tests
+- `pnpm test:coverage` — generate coverage report
 
 ## Testing
 
@@ -60,7 +62,7 @@ Unit tests live alongside source files (`*.test.ts`) in `src/lib`.
 Run all tests:
 
 ```bash
-npm run test
+pnpm test
 ```
 
 ## Contributing
