@@ -135,6 +135,41 @@ export default function EditorPage() {
     }
   }, [svg, showToast]);
 
+  const exportAsPng = useCallback(
+    (scale = 2) => {
+      if (!svg) return;
+      // Parse width/height from the SVG root element
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(svg, "image/svg+xml");
+      const root = doc.documentElement;
+      const w = parseFloat(root.getAttribute("width") ?? "800");
+      const h = parseFloat(root.getAttribute("height") ?? "600");
+
+      const canvas = document.createElement("canvas");
+      canvas.width = w * scale;
+      canvas.height = h * scale;
+      const ctx2d = canvas.getContext("2d");
+      if (!ctx2d) return;
+      ctx2d.scale(scale, scale);
+
+      const img = new Image();
+      img.onload = () => {
+        ctx2d.drawImage(img, 0, 0);
+        canvas.toBlob((blob) => {
+          if (!blob) return;
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = ctx.image ? ctx.image.name.replace(/\.[^.]+$/, ".png") : "converted.png";
+          a.click();
+          URL.revokeObjectURL(url);
+        }, "image/png");
+      };
+      img.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+    },
+    [svg, ctx.image],
+  );
+
   // ── Derived ──────────────────────────────────────────────────
   const svgSize = svg ? new Blob([svg]).size : 0;
   const formatSize = (bytes: number) => {
@@ -231,6 +266,30 @@ export default function EditorPage() {
               </button>
               <button
                 type="button"
+                className="btn btn-ghost btn-sm"
+                onClick={() => exportAsPng(2)}
+                id="export-png-btn"
+                title="Export as PNG at 2× resolution"
+              >
+                <svg
+                  aria-hidden="true"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect width="18" height="18" x="3" y="3" rx="2" />
+                  <circle cx="9" cy="9" r="2" />
+                  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+                </svg>
+                PNG
+              </button>
+              <button
+                type="button"
                 className="btn btn-primary btn-sm"
                 onClick={downloadSvg}
                 id="download-svg-btn"
@@ -250,7 +309,7 @@ export default function EditorPage() {
                   <polyline points="7 10 12 15 17 10" />
                   <line x1="12" x2="12" y1="15" y2="3" />
                 </svg>
-                Download ({formatSize(svgSize)})
+                SVG ({formatSize(svgSize)})
               </button>
             </>
           )}
