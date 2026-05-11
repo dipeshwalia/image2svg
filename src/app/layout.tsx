@@ -12,6 +12,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://image2svg.vercel.app"),
   title: "Image2SVG | Precision Raster to Vector Converter",
   description:
     "Transform raster imagery into crisp, infinitely scalable vector graphics. A powerful, private, browser-based tool powered by WASM. Zero uploads, works offline.",
