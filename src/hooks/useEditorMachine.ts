@@ -92,19 +92,32 @@ export function useEditorMachine() {
         currentReqId.current = id;
         const buf = imageData.data.buffer.slice(0);
         workerRef.current.postMessage(
-          { id, type: "vectorize", payload: { imageData: buf, width: imageData.width, height: imageData.height, config: cfg } },
+          {
+            id,
+            type: "vectorize",
+            payload: {
+              imageData: buf,
+              width: imageData.width,
+              height: imageData.height,
+              config: cfg,
+            },
+          },
           [buf],
         );
         if (timeoutRef.current) clearTimeout(timeoutRef.current);
         timeoutRef.current = setTimeout(() => {
           if (currentReqId.current === id) {
             currentReqId.current = null;
-            send({ type: "vectorize.error", error: "Vectorization timed out (>30s). Try reducing image size or simpler settings." });
+            send({
+              type: "vectorize.error",
+              error: "Vectorization timed out (>30s). Try reducing image size or simpler settings.",
+            });
           }
         }, 30_000);
       } else {
         // ImageTracer
-        const numColors = quality <= 1 ? 16 : quality === 2 ? 24 : quality === 3 ? 32 : quality === 4 ? 48 : 64;
+        const numColors =
+          quality <= 1 ? 16 : quality === 2 ? 24 : quality === 3 ? 32 : quality === 4 ? 48 : 64;
 
         let inputData = imageData;
         const pixels = imageData.width * imageData.height;
@@ -122,7 +135,10 @@ export function useEditorMachine() {
           inputData = ctx.getImageData(0, 0, cv.width, cv.height);
         }
 
-        send({ type: "ui.toast", message: `ImageTracer: ${inputData.width}×${inputData.height}, ${numColors} colors…` });
+        send({
+          type: "ui.toast",
+          message: `ImageTracer: ${inputData.width}×${inputData.height}, ${numColors} colors…`,
+        });
 
         vectorizeWithImageTracer(inputData, { ...IMAGETRACER_HIGH, numberofcolors: numColors })
           .then((r) => {
@@ -148,7 +164,9 @@ export function useEditorMachine() {
         send({ type: "ui.toast", message: "File too large. Maximum size is 20MB." });
         return;
       }
-      if (!["image/png", "image/jpeg", "image/webp", "image/bmp", "image/gif"].includes(file.type)) {
+      if (
+        !["image/png", "image/jpeg", "image/webp", "image/bmp", "image/gif"].includes(file.type)
+      ) {
         send({ type: "ui.toast", message: "Unsupported format. Use PNG, JPG, WebP, BMP, or GIF." });
         return;
       }
@@ -205,7 +223,10 @@ export function useEditorMachine() {
           regions: result.regions,
           cleanedImageData: result.cleanedImageData,
         });
-        send({ type: "ui.toast", message: `Found ${result.regions.length} text regions (${result.timeMs}ms)` });
+        send({
+          type: "ui.toast",
+          message: `Found ${result.regions.length} text regions (${result.timeMs}ms)`,
+        });
         dispatchVectorize(result.cleanedImageData, cfg, quality);
       } catch {
         send({ type: "textRemoval.error" });
@@ -236,7 +257,14 @@ export function useEditorMachine() {
   /** Toggle upscale; re-runs vectorization on completion */
   const toggleUpscale = useCallback(
     async (enabled: boolean) => {
-      const { image, config, quality, pipelineConfig: pc, removeText, cleanedImageData } = snapshot.context;
+      const {
+        image,
+        config,
+        quality,
+        pipelineConfig: pc,
+        removeText,
+        cleanedImageData,
+      } = snapshot.context;
       const updated = { ...pc, upscale: { ...pc.upscale, enabled } };
       send({ type: "pipeline.update", config: updated });
       if (!image) return;
@@ -252,7 +280,10 @@ export function useEditorMachine() {
             upscaledHeight: result.upscaledHeight,
             timeMs: result.timeMs,
           });
-          send({ type: "ui.toast", message: `Upscaled (Canvas) to ${result.upscaledWidth}×${result.upscaledHeight} in ${result.timeMs}ms` });
+          send({
+            type: "ui.toast",
+            message: `Upscaled (Canvas) to ${result.upscaledWidth}×${result.upscaledHeight} in ${result.timeMs}ms`,
+          });
           const imgData = removeText && cleanedImageData ? cleanedImageData : result.imageData;
           dispatchVectorize(imgData, config, quality);
         } catch {
